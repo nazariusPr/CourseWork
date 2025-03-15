@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="setup-quick_messages-table" author="Nazar Prots">
+        <sql>
+            CREATE DOMAIN quick_message_type_domain AS VARCHAR(40)
+                CHECK (VALUE IN
+                       ('NEED_ASSISTANCE', 'FEELING_UNSAFE', 'LOST', 'CURRENT_LOCATION', 'INJURED_CALL_FOR_HELP',
+                        'NEED_MEDICAL_ATTENTION'));
+        </sql>
+        <createTable tableName="quick_messages">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="quick_message_box_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quick_message_type" type="quick_message_type_domain"/>
+            <column name="longitude" type="DOUBLE"/>
+            <column name="latitude" type="DOUBLE"/>
+            <column name="is_read" type="BOOLEAN"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                constraintName="fk_quick_message_quick_message_box"
+                baseTableName="quick_messages"
+                baseColumnNames="quick_message_box_id"
+                referencedTableName="quick_message_boxes"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

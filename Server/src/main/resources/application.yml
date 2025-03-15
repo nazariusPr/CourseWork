@@ -1,0 +1,68 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: CourseWork-Server
+
+  sql:
+    init:
+      platform: postgres
+
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL}
+    password: ${EMAIL_PASSWORD}
+    protocol: smtp
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  liquibase:
+    change-log: db/changelog/changelog-master.xml
+
+jwt:
+  secrets:
+    access-token: ${ACCESS_TOKEN_SECRET}
+    refresh-token: ${REFRESH_TOKEN_SECRET}
+
+  durations:
+    access-token: 900000          # 15 minutes in milliseconds
+    refresh-token: 2592000000      # 30 days in milliseconds
+
+code:
+  durations:
+    email-verification-code: 86400000  # 24 hours in milliseconds
+    forget-password-code: 1800000      # 30 minutes in milliseconds
+
+analyzer:
+  url: ${ANALYZER_URL}
+
+client:
+  url: ${CLIENT_URL}

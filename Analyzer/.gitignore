@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+*.venv
+*.env
+
+# Flask logs and database files
+instance/
+*.sqlite3
+*.db
+
+# Environment variables and secret files
+config.py
+.env
+.env.local
+.env.production
+.env.testing
+
+# Pytest and testing-related files
+.coverage
+htmlcov/
+*.cover
+.tox/
+.nosetests*
+pytest_cache/
+junit.xml
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependency files
+pip-log.txt
+pip-delete-this-directory.txt
+poetry.lock
+
+# Build and distribution files
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Docker files
+*.dockerignore
+docker-compose.override.yml
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# MacOS and Linux system files
+.DS_Store
+*.orig
+Thumbs.db
+
+# app
+.moondream-2b-int8.mf

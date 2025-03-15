@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="setup-users-table" author="Nazar Prots">
+        <sql>
+            CREATE DOMAIN user_type_domain AS VARCHAR(40)
+                CHECK (VALUE IN ('VISUALLY_IMPAIRED_USER', 'SUPPORT_PROVIDER_USER'));
+        </sql>
+        <sql>
+            CREATE DOMAIN auth_method_domain AS VARCHAR(20)
+                CHECK (VALUE IN ('EMAIL', 'GOOGLE'));
+        </sql>
+        <sql>
+            CREATE DOMAIN account_status_domain AS VARCHAR(20)
+                CHECK (VALUE IN ('VERIFIED', 'NOT_VERIFIED', 'BANNED', 'DELETED'));
+        </sql>
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="user_type" type="user_type_domain">
+                <constraints nullable="true"/>
+            </column>
+            <column name="account_status" type="account_status_domain">
+                <constraints nullable="true"/>
+            </column>
+            <column name="auth_method" type="auth_method_domain">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

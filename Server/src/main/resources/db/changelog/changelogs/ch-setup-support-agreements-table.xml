@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-support-agreements-table" author="Nazar Prots">
+        <sql>
+            CREATE DOMAIN agreement_type_domain AS VARCHAR(40)
+                CHECK (VALUE IN ('PENDING', 'DECLINED', 'ACCEPTED'));
+        </sql>
+        <createTable tableName="support_agreements">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="support_provider_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="visually_impaired_user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreement_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agreement_status" type="agreement_type_domain">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="support_agreements"
+                columnNames="support_provider_id, visually_impaired_user_id"
+                constraintName="uk_support_agreement_provider_impaired"/>
+
+        <addForeignKeyConstraint
+                baseTableName="support_agreements"
+                baseColumnNames="support_provider_id"
+                constraintName="fk_support_agreements_support_provider_id"
+                referencedTableName="support_provider_users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableName="support_agreements"
+                baseColumnNames="visually_impaired_user_id"
+                constraintName="fk_support_agreements_visually_impaired_user_id"
+                referencedTableName="visually_impaired_users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

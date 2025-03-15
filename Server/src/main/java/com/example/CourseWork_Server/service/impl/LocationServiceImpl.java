@@ -1,0 +1,84 @@
+package com.example.CourseWork_Server.service.impl;
+
+import static com.example.CourseWork_Server.constant.AppConstants.GET_LOCATION_URL;
+
+import com.example.CourseWork_Server.dto.location.AddressDto;
+import com.example.CourseWork_Server.dto.location.CoordinatesDto;
+import com.example.CourseWork_Server.dto.location.LocationDto;
+import com.example.CourseWork_Server.service.LocationService;
+import com.example.CourseWork_Server.utils.RequestUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class LocationServiceImpl implements LocationService {
+  private final RequestUtils requestUtils;
+  private final MessageSource messageSource;
+
+  /** {@inheritDoc} */
+  @Override
+  public LocationDto getLocationDto(CoordinatesDto coordinatesDto, Locale locale) {
+    String url =
+        String.format(
+            GET_LOCATION_URL,
+            coordinatesDto.getLatitude(),
+            coordinatesDto.getLongitude(),
+            locale.getLanguage());
+    return requestUtils.getRequest(url, LocationDto.class);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  @Cacheable("location")
+  public String getLocationMessage(CoordinatesDto coordinatesDto, Locale locale) {
+    LocationDto location = getLocationDto(coordinatesDto, locale);
+    AddressDto address = location.getAddress();
+    List<String> parts = new ArrayList<>();
+
+    parts.add(messageSource.getMessage("location.beginning", null, locale));
+
+    if (address.getCity() != null) {
+      addLocationPart(parts, "location.city", address.getCity(), locale);
+    } else {
+      addLocationPart(parts, "location.district", address.getDistrict(), locale);
+    }
+
+    if (address.getState() != null) {
+      addLocationPart(parts, null, address.getState(), locale);
+    } else {
+      addLocationPart(parts, null, address.getCountry(), locale);
+    }
+
+    if (location.getName() != null) {
+      addLocationPart(parts, "location.name", location.getName(), locale);
+    } else {
+      addLocationPart(parts, "location.name", location.getDisplayName(), locale);
+    }
+
+    addLocationPart(parts, "location.road", address.getRoad(), locale);
+    addLocationPart(parts, "location.neighbourhood", address.getNeighbourhood(), locale);
+
+    parts.add(
+        String.format(
+            messageSource.getMessage("location.coordinates", null, locale),
+            location.getLat(),
+            location.getLon()));
+
+    return String.join(", ", parts);
+  }
+
+  private void addLocationPart(List<String> parts, String messageKey, String value, Locale locale) {
+    if (StringUtils.isNotEmpty(value)) {
+      parts.add(
+          (messageKey != null ? messageSource.getMessage(messageKey, null, locale) + " " : "")
+              + value);
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "client",
+  "license": "0BSD",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start --port 8080",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^7.2.0",
+    "@react-navigation/material-top-tabs": "^7.1.1",
+    "axios": "^1.7.9",
+    "expo": "~52.0.25",
+    "expo-audio": "~0.3.4",
+    "expo-av": "~15.0.2",
+    "expo-camera": "~16.0.16",
+    "expo-localization": "~16.0.1",
+    "expo-location": "~18.0.6",
+    "expo-speech": "~13.0.1",
+    "expo-status-bar": "~2.0.1",
+    "i18next": "^24.2.2",
+    "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.4.1",
+    "react-native": "0.76.6",
+    "react-native-config": "^1.5.5",
+    "react-native-dotenv": "^3.4.11",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-localize": "^3.4.1",
+    "react-native-maps": "^1.20.1",
+    "react-native-pager-view": "^6.7.0",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-swipe-gestures": "^1.0.5",
+    "react-native-tab-view": "^4.0.5",
+    "react-native-vector-icons": "^10.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/leaflet": "^1.9.16",
+    "@types/react": "~18.3.12",
+    "@types/react-native-vector-icons": "^6.4.18",
+    "typescript": "^5.3.3"
+  },
+  "private": true
+}
