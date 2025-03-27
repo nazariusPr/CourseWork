@@ -1,5 +1,6 @@
 package com.example.CourseWork_Server.dto.location;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -16,11 +17,17 @@ public class AddressDto {
   private String suburb;
   private String borough;
   private String city;
+  private String village;
   private String municipality;
   private String district;
   private String state;
   private String isoCode;
   private String postcode;
   private String country;
+
+  @JsonProperty("house_number")
+  private String houseNumber;
+
+  @JsonProperty("country_code")
   private String countryCode;
 }

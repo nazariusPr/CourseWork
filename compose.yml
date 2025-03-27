@@ -10,9 +10,23 @@ services:
       - "9000:9000"
     depends_on:
       - db
+      - analyzer
     networks:
-      - server_network
+      - network
     command: sh /app/entrypoint.sh
+
+  client:
+    build: ./Client
+    image: client:latest
+    container_name: client
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    depends_on:
+      - server
+    networks:
+      - network
 
   analyzer:
     build: ./Analyzer
@@ -21,7 +35,7 @@ services:
     ports:
       - "9091:9090"
     networks:
-      - server_network
+      - network
 
   db:
     image: postgres:16
@@ -35,7 +49,7 @@ services:
     volumes:
       - postgres_data:/data
     networks:
-      - server_network
+      - network
 
   redis:
     image: redis:7.4.1
@@ -49,10 +63,10 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - server_network
+      - network
 
 networks:
-  server_network:
+  network:
     driver: bridge
 
 volumes:

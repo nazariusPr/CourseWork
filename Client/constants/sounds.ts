@@ -1,10 +1,14 @@
-export const soundMap: Record<string, Record<string, any>> = {
+import { Screen } from "../types/general";
+
+export const soundMap: Record<string, Record<Screen, any>> = {
   en: {
-    LocationAssist: require("../assets/en/octopus-118359.mp3"),
-    VisionAssist: require("../assets/en/octopus-118359.mp3"),
+    LocationAssist: require("../assets/en/location.wav"),
+    VisionAssist: require("../assets/en/vision.wav"),
+    EmergencyCall: require("../assets/en/emergency.wav"),
   },
   uk: {
-    LocationAssist: require("../assets/uk/octopus-118359.mp3"),
-    VisionAssist: require("../assets/uk/octopus-118359.mp3"),
+    LocationAssist: require("../assets/uk/location.wav"),
+    VisionAssist: require("../assets/uk/vision.wav"),
+    EmergencyCall: require("../assets/uk/emergency.wav"),
   },
-};
+} as const;

@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert, Pressable } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Coordinate, ScreenProps } from "../types/general";
 import { speak } from "../utils/general";
+import { getLocation } from "../api/axiosRequests";
 import ScreenButton from "../components/UI/ScreenButton";
 import HeaderRightButton from "../components/UI/HeaderRightButton";
 import withSound from "../hoc/withSound";
@@ -42,8 +43,17 @@ function LocationAssistScreen({ playSound, stopSound }: ScreenProps) {
     );
   }
 
-  const handleDoublePress = () => {
-    speak("Ви перебуваєте у місті Львів");
+  const handleDoublePress = async () => {
+    try {
+      const response = await getLocation(
+        coordinate.latitude,
+        coordinate.longitude
+      );
+
+      speak(response.data.message);
+    } catch (error) {
+      console.error("Error fetching location:", error);
+    }
   };
 
   const handleHeaderPress = () => {

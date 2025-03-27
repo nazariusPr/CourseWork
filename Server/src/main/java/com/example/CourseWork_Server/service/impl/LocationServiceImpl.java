@@ -2,6 +2,7 @@ package com.example.CourseWork_Server.service.impl;
 
 import static com.example.CourseWork_Server.constant.AppConstants.GET_LOCATION_URL;
 
+import com.example.CourseWork_Server.dto.general.MessageDto;
 import com.example.CourseWork_Server.dto.location.AddressDto;
 import com.example.CourseWork_Server.dto.location.CoordinatesDto;
 import com.example.CourseWork_Server.dto.location.LocationDto;
@@ -37,41 +38,26 @@ public class LocationServiceImpl implements LocationService {
   /** {@inheritDoc} */
   @Override
   @Cacheable("location")
-  public String getLocationMessage(CoordinatesDto coordinatesDto, Locale locale) {
+  public MessageDto getLocationMessage(CoordinatesDto coordinatesDto, Locale locale) {
     LocationDto location = getLocationDto(coordinatesDto, locale);
     AddressDto address = location.getAddress();
     List<String> parts = new ArrayList<>();
 
     parts.add(messageSource.getMessage("location.beginning", null, locale));
+    addLocationPart(parts, null, address.getRoad(), locale);
+    addLocationPart(parts, null, address.getHouseNumber(), locale);
 
-    if (address.getCity() != null) {
+    if (StringUtils.isNotEmpty(address.getCity())) {
       addLocationPart(parts, "location.city", address.getCity(), locale);
-    } else {
-      addLocationPart(parts, "location.district", address.getDistrict(), locale);
+    } else if (StringUtils.isNotEmpty(address.getVillage())) {
+      addLocationPart(parts, "location.village", address.getVillage(), locale);
     }
 
-    if (address.getState() != null) {
-      addLocationPart(parts, null, address.getState(), locale);
-    } else {
-      addLocationPart(parts, null, address.getCountry(), locale);
-    }
+    addLocationPart(parts, null, address.getDistrict(), locale);
+    addLocationPart(parts, null, address.getState(), locale);
+    addLocationPart(parts, null, address.getCountry(), locale);
 
-    if (location.getName() != null) {
-      addLocationPart(parts, "location.name", location.getName(), locale);
-    } else {
-      addLocationPart(parts, "location.name", location.getDisplayName(), locale);
-    }
-
-    addLocationPart(parts, "location.road", address.getRoad(), locale);
-    addLocationPart(parts, "location.neighbourhood", address.getNeighbourhood(), locale);
-
-    parts.add(
-        String.format(
-            messageSource.getMessage("location.coordinates", null, locale),
-            location.getLat(),
-            location.getLon()));
-
-    return String.join(", ", parts);
+    return new MessageDto(String.join(" ", parts));
   }
 
   private void addLocationPart(List<String> parts, String messageKey, String value, Locale locale) {

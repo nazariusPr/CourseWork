@@ -4,5 +4,8 @@
   },
   "VisionAssist": {
     "title": "Vision Assistance"
+  },
+  "EmergencyCall": {
+    "title": "Emergency Call"
   }
 }
