@@ -14,4 +14,16 @@ public interface AnalyzeService {
    * @return MessageDto containing the result of the analysis.
    */
   MessageDto analyze(MultipartFile multipartFile);
+
+  /**
+   * Analyzes the provided base64-encoded image string and returns the analysis result as a string.
+   *
+   * <p><b>Note:</b> The provided string must be a valid base64-encoded image (e.g., a JPEG or PNG
+   * image encoded in base64 format). Invalid or malformed base64 strings may result in unexpected
+   * behavior or errors.
+   *
+   * @param base64 the base64-encoded image string to be analyzed.
+   * @return MessageDto containing the result of the analysis.
+   */
+  MessageDto analyze(String base64);
 }

@@ -1,5 +1,6 @@
 package com.example.CourseWork_Server.service;
 
+import com.example.CourseWork_Server.dto.general.MessageDto;
 import com.example.CourseWork_Server.dto.location.CoordinatesDto;
 import com.example.CourseWork_Server.dto.location.LocationDto;
 import java.util.Locale;
@@ -23,5 +24,5 @@ public interface LocationService {
    * @param locale the locale to determine the language of the generated message.
    * @return a formatted string representing the location message.
    */
-  String getLocationMessage(CoordinatesDto coordinatesDto, Locale locale);
+  MessageDto getLocationMessage(CoordinatesDto coordinatesDto, Locale locale);
 }

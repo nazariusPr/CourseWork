@@ -2,6 +2,8 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState, useRef } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { ScreenProps } from "../types/general";
+import { analyzeBase64 } from "../api/axiosRequests";
+import { speak } from "../utils/general";
 import HeaderRightButton from "../components/UI/HeaderRightButton";
 import ScreenButton from "../components/UI/ScreenButton";
 import AnalyzedView from "../components/Vision/AnalyzedView";
@@ -13,18 +15,24 @@ function VisionAssistScreen({ stopSound, playSound }: ScreenProps) {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
 
   const handleDoublePress = async () => {
-    if (cameraRef.current && !photoUri) {
-      try {
-        const photo = await cameraRef.current.takePictureAsync();
-        if (photo) {
-          setPhotoUri(photo.uri);
-          await new Promise((resolve) => setTimeout(resolve, 10000));
+    if (!cameraRef.current && photoUri) return;
+
+    try {
+      const photo = await cameraRef.current?.takePictureAsync({ base64: true });
+      if (photo) {
+        const uri = photo.uri;
+        setPhotoUri(uri);
+
+        if (photo.base64) {
+          const response = await analyzeBase64({ base64: photo.base64 });
+          console.log("Message : " + response.data.message);
+          speak(response.data.message);
         }
-      } catch (error) {
-        console.error("Error taking picture:", error);
-      } finally {
-        setPhotoUri(null);
       }
+    } catch (error) {
+      console.error("Error taking picture:", error);
+    } finally {
+      setPhotoUri(null);
     }
   };
 

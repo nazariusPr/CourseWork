@@ -6,10 +6,12 @@ import { getResponsiveSize } from "../utils/responsive";
 import { colors } from "../constants/colors";
 import LocationAssistScreen from "../screens/LocationAssistScreen";
 import VisionAssistScreen from "../screens/VisionAssistScreen";
+import EmergencyCallScreen from "../screens/EmergencyCallScreen";
 
 export type RootTabsParamList = {
   LocationAssist: { screen: Screen };
   VisionAssist: { screen: Screen };
+  EmergencyCall: { screen: Screen };
 };
 
 const Tabs = createBottomTabNavigator<RootTabsParamList>();
@@ -20,6 +22,7 @@ const tabIcons: Record<
 > = {
   LocationAssist: "navigate-outline",
   VisionAssist: "eye-outline",
+  EmergencyCall: "call-outline",
 };
 
 function TabNavigator() {
@@ -73,6 +76,11 @@ function TabNavigator() {
         name="VisionAssist"
         options={{ title: t("VisionAssist.title") }}
         children={() => <VisionAssistScreen screen="VisionAssist" />}
+      />
+      <Tabs.Screen
+        name="EmergencyCall"
+        options={{ title: t("EmergencyCall.title") }}
+        children={() => <EmergencyCallScreen screen="EmergencyCall" />}
       />
     </Tabs.Navigator>
   );

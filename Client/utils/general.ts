@@ -8,17 +8,17 @@ export const getLanguageCode = (): LanguageCode => {
   const locale = Localization.getLocales()[0].languageTag;
   const languageCode = locale.split("-")[0] as LanguageCode;
 
-  return supportedLanguages.includes(languageCode) ? languageCode : "en";
+  // return supportedLanguages.includes(languageCode) ? languageCode : "en";
+  return "en";
 };
 
 export const speak = async (text: string) => {
   await Speech.stop();
   const languageCode = getLanguageCode();
-
   const voices: Record<LanguageCode, string> = {
     en:
       Platform.OS === "ios"
-        ? "com.apple.ttsbundle.siri_female_en-US"
+        ? "com.apple.ttsbundle.siri_female_en-GB"
         : "en-US-language",
     uk:
       Platform.OS === "ios"
@@ -30,6 +30,6 @@ export const speak = async (text: string) => {
     language: languageCode,
     pitch: 1.15,
     rate: 0.95,
-    voice: voices[languageCode],
+    // voice: voices[languageCode],
   });
 };

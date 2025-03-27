@@ -8,11 +8,13 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Slf4j
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
@@ -33,7 +35,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     HttpStatus status =
         e instanceof JwtException ? HttpStatus.UNAUTHORIZED : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    String message = e instanceof JwtException ? "JWT EXPIRED" : "An unexpected error occurred";
+    log.error(e.getMessage());
+    String message =
+        e instanceof JwtException
+            ? "JWT EXPIRED"
+            : "An unexpected error occurred : " + e.getMessage();
 
     ExceptionDto errorResponse = new ExceptionDto();
     errorResponse.setMessage(message);

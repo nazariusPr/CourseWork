@@ -2,7 +2,12 @@ package com.example.CourseWork_Server.utils;
 
 import com.example.CourseWork_Server.dto.general.ExceptionDto;
 import com.example.CourseWork_Server.exception.exceptions.BadRequestException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -33,6 +38,7 @@ public class RequestUtils {
     return webClient
         .post()
         .uri(uri)
+        .headers(getDefaultHeaders())
         .bodyValue(requestBody)
         .retrieve()
         .onStatus(this::isErrorStatus, this::handleError)
@@ -60,6 +66,7 @@ public class RequestUtils {
         .post()
         .uri(uri)
         .contentType(MediaType.MULTIPART_FORM_DATA)
+        .headers(getDefaultHeaders())
         .body(BodyInserters.fromMultipartData(builder.build()))
         .retrieve()
         .onStatus(this::isErrorStatus, this::handleError)
@@ -108,5 +115,17 @@ public class RequestUtils {
    */
   private boolean isErrorStatus(HttpStatusCode status) {
     return status.is4xxClientError() || status.is5xxServerError();
+  }
+
+  /**
+   * Returns default headers.
+   *
+   * @return A map containing default headers.
+   */
+  private Consumer<HttpHeaders> getDefaultHeaders() {
+    Map<String, String> headers = new HashMap<>();
+    headers.put(HttpHeaders.ACCEPT_LANGUAGE, LocaleContextHolder.getLocale().toLanguageTag());
+
+    return h -> h.setAll(headers);
   }
 }

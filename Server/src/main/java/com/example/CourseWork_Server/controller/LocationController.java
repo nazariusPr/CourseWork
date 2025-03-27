@@ -2,6 +2,7 @@ package com.example.CourseWork_Server.controller;
 
 import static com.example.CourseWork_Server.constant.AppConstants.LOCATION_LINK;
 
+import com.example.CourseWork_Server.dto.general.MessageDto;
 import com.example.CourseWork_Server.dto.location.CoordinatesDto;
 import com.example.CourseWork_Server.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +49,8 @@ public class LocationController {
     @ApiResponse(responseCode = "200", description = "Location message retrieved successfully"),
     @ApiResponse(responseCode = "400", description = "Invalid coordinates provided")
   })
-  @GetMapping()
-  public ResponseEntity<String> read(
+  @GetMapping
+  public ResponseEntity<MessageDto> read(
       @RequestParam double lat, @RequestParam double lon, Locale locale) {
     log.info("**/ Get user's location");
     return ResponseEntity.ok(

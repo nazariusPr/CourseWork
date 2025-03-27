@@ -17,3 +17,7 @@ export type GoogleDto = {
   token: string;
   userType?: UserType;
 };
+
+export type Base64 = {
+  base64: string;
+};
