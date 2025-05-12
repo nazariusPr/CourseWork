@@ -27,7 +27,7 @@ public class SwaggerConfig {
                         .bearerFormat("JWT")))
         .info(
             new Info()
-                .title("EventHub API")
+                .title("CourseWork API")
                 .summary("Api Documentation")
                 .version("1.0.0")
                 .license(

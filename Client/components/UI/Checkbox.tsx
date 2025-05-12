@@ -9,7 +9,7 @@ import {
   TextStyle,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { colors } from "../../constants/colors";
+import { colors } from "../../constants/theme";
 
 const { width } = Dimensions.get("window");
 

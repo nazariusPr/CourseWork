@@ -1,15 +1,24 @@
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View, StyleSheet, FlatList } from "react-native";
-import { EmergencyNumber, ScreenProps } from "../types/general";
+import { ScreenProps } from "../types/general";
 import { Linking } from "react-native";
-import { emergencyNumbers } from "../constants/general";
 import { getResponsiveSize } from "../utils/responsive";
-import HeaderRightButton from "../components/UI/HeaderRightButton";
+import { useTranslation } from "react-i18next";
+import { getEmergencyCall } from "../api/axiosRequests";
+import { EmergencyCallDto } from "../types/api";
+import { getCurrentCoordinate } from "../utils/general";
+import Loading from "../components/UI/Loading";
+import HeaderButton from "../components/UI/HeaderButton";
 import EmergencyCallButton from "../components/EmergencyCall/EmergencyCallButton";
 import withSound from "../hoc/withSound";
 
-type EmergencyType = keyof typeof emergencyNumbers;
-
 function EmergencyCallScreen({ stopSound, playSound }: ScreenProps) {
+  const [loading, setLoading] = useState(true);
+  const [emergencyNumbers, setEmergencyNumbers] =
+    useState<Array<EmergencyCallDto> | null>(null);
+  const { t } = useTranslation();
+
   const openDialer = (phoneNumber: string) => {
     stopSound();
     const url = `tel:${phoneNumber}`;
@@ -18,20 +27,47 @@ function EmergencyCallScreen({ stopSound, playSound }: ScreenProps) {
     );
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      const fetchEmergencyNumbers = async () => {
+        try {
+          const coordinate = await getCurrentCoordinate();
+          setLoading(true);
+          const data = await getEmergencyCall(
+            coordinate.latitude,
+            coordinate.longitude
+          );
+          setEmergencyNumbers(data);
+        } catch (error) {
+          console.error("Failed to fetch emergency numbers", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchEmergencyNumbers();
+    }, [])
+  );
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <View style={styles.container}>
-      <HeaderRightButton onPress={playSound} />
+      <HeaderButton title={t("EmergencyCall.title")} onPress={playSound} />
       <FlatList
-        data={Object.entries(emergencyNumbers)}
-        keyExtractor={([key]) => key}
+        data={emergencyNumbers}
+        keyExtractor={(item) => item.emergencyService}
         numColumns={2}
         contentContainerStyle={styles.buttonsContainer}
         renderItem={({ item }) => {
-          const [key, phoneNumber] = item;
           return (
             <EmergencyCallButton
-              type={key as EmergencyType}
-              onPress={() => openDialer(phoneNumber)}
+              type={item.emergencyService}
+              onSecondPress={() => {
+                openDialer(item.phoneNumber);
+              }}
             />
           );
         }}

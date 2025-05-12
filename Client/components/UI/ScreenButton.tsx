@@ -1,18 +1,25 @@
 import { Pressable, StyleSheet } from "react-native";
+import { zIndexes } from "../../constants/theme";
 import useDoublePress from "../../hooks/useDoublePress";
 
 type ScreenButtonProps = {
   beforeDoublePress?: () => void;
+  onFirstPress?: () => void;
   onDoublePress: () => void;
 };
 
 function ScreenButton({
   beforeDoublePress = () => {},
+  onFirstPress = () => {},
   onDoublePress,
 }: ScreenButtonProps) {
-  const handlePress = useDoublePress(() => {
+  const callback = () => {
     beforeDoublePress();
     onDoublePress();
+  };
+  const handlePress = useDoublePress({
+    onFirstPress,
+    onSecondPress: callback,
   });
 
   return (
@@ -33,7 +40,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0)",
-    zIndex: 100,
+    zIndex: zIndexes.modal,
   },
 });
 

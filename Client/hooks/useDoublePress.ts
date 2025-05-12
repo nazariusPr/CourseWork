@@ -1,15 +1,34 @@
 import { useRef } from "react";
+import { lightImpactFeedback, heavyImpactFeedback } from "../utils/general";
 
-function useDoublePress(callback: () => void, delay: number = 500) {
+type UseDoublePressParams = {
+  onFirstPress?: () => void;
+  onSecondPress: () => void;
+  delay?: number;
+};
+
+const useDoublePress = ({
+  onFirstPress = () => {},
+  onSecondPress,
+  delay = 500,
+}: UseDoublePressParams) => {
   const lastPressTime = useRef<number>(0);
 
   return () => {
     const now = Date.now();
+
     if (now - lastPressTime.current < delay) {
-      callback();
+      console.log("Second press")
+      lightImpactFeedback();
+      onSecondPress();
+    } else {
+      console.log("First press")
+      heavyImpactFeedback();
+      onFirstPress();
     }
+
     lastPressTime.current = now;
   };
-}
+};
 
 export default useDoublePress;

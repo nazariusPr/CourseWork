@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { View, Image, StyleSheet, Dimensions, Animated } from "react-native";
 import { getResponsiveSize } from "../../utils/responsive";
+import { zIndexes } from "../../constants/theme";
 
 const { width, height } = Dimensions.get("window");
 
@@ -51,21 +52,21 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 150,
+    zIndex: zIndexes.overlay,
   },
   image: {
     width: getResponsiveSize(width * 0.8),
     height: getResponsiveSize(height * 0.6),
     resizeMode: "contain",
     borderRadius: getResponsiveSize(10),
-    zIndex: 150,
+    zIndex: zIndexes.overlay,
   },
   line: {
     position: "absolute",
     width: "95%",
     height: 4,
     backgroundColor: "green",
-    zIndex: 160,
+    zIndex: zIndexes.overlay + 10,
   },
 });
 

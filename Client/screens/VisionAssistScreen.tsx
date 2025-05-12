@@ -1,18 +1,22 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { ScreenProps } from "../types/general";
 import { analyzeBase64 } from "../api/axiosRequests";
 import { speak } from "../utils/general";
-import HeaderRightButton from "../components/UI/HeaderRightButton";
+import HeaderButton from "../components/UI/HeaderButton";
 import ScreenButton from "../components/UI/ScreenButton";
 import AnalyzedView from "../components/Vision/AnalyzedView";
+import Loading from "../components/UI/Loading";
 import withSound from "../hoc/withSound";
 
 function VisionAssistScreen({ stopSound, playSound }: ScreenProps) {
+  const [isCameraReady, setIsCameraReady] = useState<boolean>(false);
   const [permission, requestPermission] = useCameraPermissions();
-  const cameraRef = useRef<CameraView>(null);
   const [photoUri, setPhotoUri] = useState<string | null>(null);
+  const { t } = useTranslation();
+  const cameraRef = useRef<CameraView>(null);
 
   const handleDoublePress = async () => {
     if (!cameraRef.current && photoUri) return;
@@ -25,8 +29,8 @@ function VisionAssistScreen({ stopSound, playSound }: ScreenProps) {
 
         if (photo.base64) {
           const response = await analyzeBase64({ base64: photo.base64 });
-          console.log("Message : " + response.data.message);
-          speak(response.data.message);
+          console.log("Message : " + response.message);
+          speak(response.message);
         }
       }
     } catch (error) {
@@ -37,7 +41,7 @@ function VisionAssistScreen({ stopSound, playSound }: ScreenProps) {
   };
 
   if (!permission) {
-    return <View />;
+    return <Loading />;
   }
 
   if (!permission.granted) {
@@ -53,17 +57,19 @@ function VisionAssistScreen({ stopSound, playSound }: ScreenProps) {
 
   return (
     <View style={styles.container}>
-      <HeaderRightButton onPress={playSound} />
+      <HeaderButton title={t("VisionAssist.title")} onPress={playSound} />
       {photoUri && <AnalyzedView uri={photoUri} />}
       <ScreenButton
         beforeDoublePress={stopSound}
         onDoublePress={handleDoublePress}
       />
+      {!isCameraReady && <Loading />}
       <CameraView
         ref={cameraRef}
         style={styles.camera}
         facing="back"
         autofocus="on"
+        onCameraReady={() => setIsCameraReady(true)}
       ></CameraView>
     </View>
   );

@@ -13,4 +13,7 @@
     <include file="/db/changelog/changelogs/ch-setup-quick-messages-table.xml"/>
     <include file="db/changelog/changelogs/ch-setup-support-agreements-table.xml"/>
     <include file="db/changelog/changelogs/ch-setup-languages-table.xml"/>
+    <include file="db/changelog/changelogs/ch-setup-countries-table.xml"/>
+    <include file="db/changelog/changelogs/ch-setup-emergency-service-table.xml"/>
+    <include file="/db/changelog/changelogs/ch-setup-emergency-calls-table.xml"/>
 </databaseChangeLog>

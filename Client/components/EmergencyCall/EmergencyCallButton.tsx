@@ -1,15 +1,22 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { EmergencyNumber } from "../../types/general";
+import { EmergencyService } from "../../types/general";
 import { getResponsiveSize } from "../../utils/responsive";
-import { colors } from "../../constants/colors";
+import { colors } from "../../constants/theme";
+import { speak } from "../../utils/general";
+import useDoublePress from "../../hooks/useDoublePress";
 
 type EmergencyCallButtonProps = {
-  type: EmergencyNumber;
-  onPress: () => void;
+  type: EmergencyService;
+  onSecondPress: () => void;
 };
 
-function EmergencyCallButton({ type, onPress }: EmergencyCallButtonProps) {
+function EmergencyCallButton({
+  type,
+  onSecondPress,
+}: EmergencyCallButtonProps) {
+  const { t } = useTranslation();
   const getIcon = () => {
     switch (type) {
       case "police":
@@ -23,6 +30,16 @@ function EmergencyCallButton({ type, onPress }: EmergencyCallButtonProps) {
     }
   };
 
+  const onFirstPress = () => {
+    const description = t(`EmergencyCall.services.${type}`);
+    speak(description);
+  };
+
+  const handlePress = useDoublePress({
+    onFirstPress,
+    onSecondPress,
+  });
+
   return (
     <Pressable
       key={type}
@@ -30,7 +47,7 @@ function EmergencyCallButton({ type, onPress }: EmergencyCallButtonProps) {
         styles.circleButton,
         { opacity: pressed ? 0.7 : 1 },
       ]}
-      onPress={onPress}
+      onPress={handlePress}
     >
       <Ionicons
         name={getIcon()}

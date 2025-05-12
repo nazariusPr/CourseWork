@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="setup-countries-table" author="Nazar Prots">
+        <createTable tableName="countries">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="insert-countries-data" author="Nazar Prots">
+        <insert tableName="countries">
+            <column name="id" value="e5e4d8fc-440b-47f5-a99d-02e080f24e77"/>
+            <column name="name" value="Ukraine"/>
+        </insert>
+        <insert tableName="countries">
+            <column name="id" value="b27402f9-77e3-4cc2-bd60-05f3b1f8bfc3"/>
+            <column name="name" value="Germany"/>
+        </insert>
+        <insert tableName="countries">
+            <column name="id" value="d1fd60d9-74e4-4c1d-b206-ea7a1b0295c8"/>
+            <column name="name" value="France"/>
+        </insert>
+        <insert tableName="countries">
+            <column name="id" value="fa8a9294-bfb1-44bb-a073-6316e68f273e"/>
+            <column name="name" value="Poland"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -37,6 +37,13 @@ public class LocationServiceImpl implements LocationService {
 
   /** {@inheritDoc} */
   @Override
+  public String getCountryName(CoordinatesDto coordinatesDto, Locale locale) {
+    AddressDto addressDto = getLocationDto(coordinatesDto, locale).getAddress();
+    return addressDto.getCountry().trim();
+  }
+
+  /** {@inheritDoc} */
+  @Override
   @Cacheable("location")
   public MessageDto getLocationMessage(CoordinatesDto coordinatesDto, Locale locale) {
     LocationDto location = getLocationDto(coordinatesDto, locale);
