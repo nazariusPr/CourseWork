@@ -32,7 +32,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// Lombok
@@ -68,7 +68,7 @@ dependencies {
 	//Jackson
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
 
-	// PostgreSQL driver
+	// PostgresSQL driver
 	runtimeOnly 'org.postgresql:postgresql'
 
 	// Test dependencies

@@ -1,4 +1,5 @@
 import { UserType } from "../enums/user";
+import { EmergencyService } from "./general";
 
 export type AuthenticationDto = {
   email: string;
@@ -20,4 +21,15 @@ export type GoogleDto = {
 
 export type Base64 = {
   base64: string;
+};
+
+export type MessageDto = {
+  message: string;
+};
+
+export type EmergencyCallDto = {
+  id: string;
+  phoneNumber: string;
+  emergencyService: EmergencyService;
+  country: string;
 };

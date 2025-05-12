@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import { getLanguageCode } from "../utils/general";
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://192.168.110.182:9090/api/v1",
+  baseURL: process.env.EXPO_PUBLIC_SERVER_URL,
   timeout: 0,
   headers: {
     "Content-Type": "application/json",

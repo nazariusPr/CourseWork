@@ -1,11 +1,20 @@
 {
   "LocationAssist": {
-    "title": "Location Assistance"
+    "title": "Location Assistance",
+    "description": "Helps with geolocation and navigation."
   },
   "VisionAssist": {
-    "title": "Vision Assistance"
+    "title": "Vision Assistance",
+    "description": "Provides visual  aid   features for accessibility."
   },
   "EmergencyCall": {
-    "title": "Emergency Call"
+    "title": "Emergency Call",
+    "description": "Contact emergency services quickly.",
+    "services": {
+      "police": "Police",
+      "fire": "Fire Department",
+      "ambulance": "Ambulance",
+      "emergencyService": "Emergency Service"
+    }
   }
 }

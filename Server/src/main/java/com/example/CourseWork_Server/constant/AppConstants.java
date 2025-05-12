@@ -15,4 +15,5 @@ public class AppConstants {
   public static final String QUICK_MESSAGE_LINK = "/api/v1/quick-message";
   public static final String LOCATION_LINK = "/api/v1/location";
   public static final String ANALYZE_LINK = "/api/v1/analyze";
+  public static final String EMERGENCY_CALL_LINK = "/api/v1/emergency-call";
 }

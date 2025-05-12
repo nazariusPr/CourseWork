@@ -1,11 +1,20 @@
 {
   "LocationAssist": {
-    "title": "Локаційна допомога"
+    "title": "Локаційна допомога",
+    "description": "Допомага з поточним місцезнаходженням"
   },
   "VisionAssist": {
-    "title": "Зорова підтримка"
+    "title": "Зорова підтримка",
+    "description": "Допомога з ідентифікаціє об'єктів"
   },
   "EmergencyCall": {
-    "title": "Екстрений виклик"
+    "title": "Екстрений виклик",
+    "description": "Швидкий зв'язок зі службами екстреної допомоги",
+    "services": [
+      { "name": "Police", "value": "Поліція" },
+      { "name": "Fire Department", "value": "Пожежна служба" },
+      { "name": "Ambulance", "value": "Швидка допомога" },
+      { "name": "Emergency Service", "value": "Служба порятунку" }
+    ]
   }
 }

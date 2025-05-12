@@ -1,32 +1,29 @@
-import { useState, useEffect, useLayoutEffect } from "react";
-import { View, StyleSheet, Alert, Pressable } from "react-native";
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Coordinate, ScreenProps } from "../types/general";
-import { speak } from "../utils/general";
+import { speak, getCurrentCoordinate } from "../utils/general";
 import { getLocation } from "../api/axiosRequests";
 import ScreenButton from "../components/UI/ScreenButton";
-import HeaderRightButton from "../components/UI/HeaderRightButton";
+import HeaderButton from "../components/UI/HeaderButton";
+import Loading from "../components/UI/Loading";
 import withSound from "../hoc/withSound";
-import * as Location from "expo-location";
 import * as Speech from "expo-speech";
 
 function LocationAssistScreen({ playSound, stopSound }: ScreenProps) {
+  const { t } = useTranslation();
   const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
 
   useEffect(() => {
     const getLocation = async () => {
-      playSound;
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permission denied", "Location access is required.");
-        return;
+      const loc = await getCurrentCoordinate();
+      if (loc && loc.latitude !== undefined && loc.longitude !== undefined) {
+        setCoordinate({
+          latitude: loc.latitude,
+          longitude: loc.longitude,
+        });
       }
-
-      const loc = await Location.getCurrentPositionAsync({});
-      setCoordinate({
-        latitude: loc.coords.latitude,
-        longitude: loc.coords.longitude,
-      });
     };
 
     getLocation();
@@ -38,7 +35,7 @@ function LocationAssistScreen({ playSound, stopSound }: ScreenProps) {
   if (!coordinate) {
     return (
       <View style={styles.container}>
-        {/* Loading or Empty state when no coordinates available */}
+        <Loading />
       </View>
     );
   }
@@ -50,7 +47,7 @@ function LocationAssistScreen({ playSound, stopSound }: ScreenProps) {
         coordinate.longitude
       );
 
-      speak(response.data.message);
+      speak(response.message);
     } catch (error) {
       console.error("Error fetching location:", error);
     }
@@ -63,7 +60,10 @@ function LocationAssistScreen({ playSound, stopSound }: ScreenProps) {
 
   return (
     <View style={styles.container}>
-      <HeaderRightButton onPress={handleHeaderPress} />
+      <HeaderButton
+        title={t("LocationAssist.title")}
+        onPress={handleHeaderPress}
+      />
       <ScreenButton
         beforeDoublePress={stopSound}
         onDoublePress={handleDoublePress}

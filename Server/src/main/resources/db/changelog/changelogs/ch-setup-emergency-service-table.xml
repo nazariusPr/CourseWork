@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="setup-emergency-service-table" author="Nazar Prots">
+        <createTable tableName="emergency_services">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="insert-emergency-services-data" author="Nazar Prots">
+        <insert tableName="emergency_services">
+            <column name="id" value="5f4e58d3-65c7-45d9-b517-312bff89d855"/>
+            <column name="name" value="fire"/>
+        </insert>
+        <insert tableName="emergency_services">
+            <column name="id" value="52e1a330-c3e0-4567-8eab-3a4d8d7b5189"/>
+            <column name="name" value="police"/>
+        </insert>
+        <insert tableName="emergency_services">
+            <column name="id" value="c71bc156-f87f-43fa-a40c-cf5a60c79b65"/>
+            <column name="name" value="ambulance"/>
+        </insert>
+        <insert tableName="emergency_services">
+            <column name="id" value="99e27f63-f4a3-47fd-9d5f-df3c61a61fe1"/>
+            <column name="name" value="emergencyService"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

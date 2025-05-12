@@ -2,6 +2,7 @@ package com.example.CourseWork_Server.config;
 
 import static com.example.CourseWork_Server.constant.AppConstants.ANALYZE_LINK;
 import static com.example.CourseWork_Server.constant.AppConstants.AUTH_LINK;
+import static com.example.CourseWork_Server.constant.AppConstants.EMERGENCY_CALL_LINK;
 import static com.example.CourseWork_Server.constant.AppConstants.LOCATION_LINK;
 
 import com.example.CourseWork_Server.security.filter.ExceptionHandlerFilter;
@@ -55,7 +56,11 @@ public class SecurityConfig {
         .cors(c -> c.configurationSource(corsConfigurationSource()))
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers(AUTH_LINK + "/**", LOCATION_LINK + "/**", ANALYZE_LINK + "/**")
+                auth.requestMatchers(
+                        AUTH_LINK + "/**",
+                        LOCATION_LINK + "/**",
+                        ANALYZE_LINK + "/**",
+                        EMERGENCY_CALL_LINK + "/**")
                     .permitAll()
                     .requestMatchers(
                         "/v2/api-docs/**",

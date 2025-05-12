@@ -12,8 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.LocaleResolver;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
 @RequiredArgsConstructor
@@ -33,25 +31,6 @@ public class AppConfig {
   @Bean
   public LocaleResolver localeResolver() {
     return localeResolver;
-  }
-
-  @Bean
-  public ClassLoaderTemplateResolver templateResolver() {
-    ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-    templateResolver.setPrefix("templates/");
-    templateResolver.setTemplateMode("HTML");
-    templateResolver.setSuffix(".html");
-    templateResolver.setCharacterEncoding("UTF-8");
-    templateResolver.setOrder(1);
-    return templateResolver;
-  }
-
-  @Bean
-  public SpringTemplateEngine templateEngine() {
-    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    templateEngine.setTemplateResolver(templateResolver());
-
-    return templateEngine;
   }
 
   @Bean

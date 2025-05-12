@@ -1,21 +1,24 @@
 import { useCallback, useRef } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { Audio } from "expo-av";
-import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
 import { Screen, ScreenProps } from "../types/general";
 import { soundMap } from "../constants/sounds";
-import * as Speech from "expo-speech";
+import { useFirstLaunch } from "../context/FirstLaunchContext";
+import { speak, speakStop } from "../utils/general";
+import i18n from "../i18n";
 
 interface WithSoundProps {
   screen: Screen;
 }
 
-function withSound<T extends JSX.IntrinsicAttributes>(
-  WrappedComponent: React.ComponentType<T & ScreenProps>
-) {
+function withSound<T>(WrappedComponent: React.ComponentType<T & ScreenProps>) {
   return (props: T & WithSoundProps) => {
     const { screen } = props;
+    const { t } = useTranslation();
     const soundRef = useRef<Audio.Sound | null>(null);
+    const visitedScreensRef = useRef<Set<Screen>>(new Set());
+    const { isFirstLaunch } = useFirstLaunch();
 
     const stopSound = useCallback(async () => {
       if (soundRef.current) {
@@ -54,8 +57,17 @@ function withSound<T extends JSX.IntrinsicAttributes>(
 
     useFocusEffect(
       useCallback(() => {
-        Speech.stop();
-        playSound();
+        speakStop();
+
+        const isFirstTimeVisiting = !visitedScreensRef.current.has(screen);
+        visitedScreensRef.current.add(screen);
+
+        if (isFirstLaunch && isFirstTimeVisiting) {
+          playSound();
+        } else {
+          const clue = t(screen + ".description");
+          speak(clue);
+        }
 
         return () => {
           stopSound();

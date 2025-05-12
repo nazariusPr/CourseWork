@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="setup-emergency-calls-table" author="Nazar Prots">
+        <createTable tableName="emergency_calls">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="emergency_service_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="emergency_calls"
+                baseColumnNames="emergency_service_id"
+                constraintName="fk_emergency_calls_emergency_service"
+                referencedTableName="emergency_services"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint
+                baseTableName="emergency_calls"
+                baseColumnNames="country_id"
+                constraintName="fk_emergency_calls_country"
+                referencedTableName="countries"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="insert-emergency-calls-data" author="Nazar Prots">
+        <!-- Ukraine Emergency Numbers -->
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="101"/>
+            <column name="emergency_service_id" value="5f4e58d3-65c7-45d9-b517-312bff89d855"/>
+            <column name="country_id" value="e5e4d8fc-440b-47f5-a99d-02e080f24e77"/>
+        </insert>
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="102"/>
+            <column name="emergency_service_id" value="52e1a330-c3e0-4567-8eab-3a4d8d7b5189"/>
+            <column name="country_id" value="e5e4d8fc-440b-47f5-a99d-02e080f24e77"/>
+        </insert>
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="103"/>
+            <column name="emergency_service_id" value="c71bc156-f87f-43fa-a40c-cf5a60c79b65"/>
+            <column name="country_id" value="e5e4d8fc-440b-47f5-a99d-02e080f24e77"/>
+        </insert>
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="112"/>
+            <column name="emergency_service_id" value="99e27f63-f4a3-47fd-9d5f-df3c61a61fe1"/>
+            <column name="country_id" value="e5e4d8fc-440b-47f5-a99d-02e080f24e77"/>
+        </insert>
+
+        <!-- Poland Emergency Numbers -->
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="998"/>
+            <column name="emergency_service_id" value="5f4e58d3-65c7-45d9-b517-312bff89d855"/>
+            <column name="country_id" value="fa8a9294-bfb1-44bb-a073-6316e68f273e"/>
+        </insert>
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="997"/>
+            <column name="emergency_service_id" value="52e1a330-c3e0-4567-8eab-3a4d8d7b5189"/>
+            <column name="country_id" value="fa8a9294-bfb1-44bb-a073-6316e68f273e"/>
+        </insert>
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="999"/>
+            <column name="emergency_service_id" value="c71bc156-f87f-43fa-a40c-cf5a60c79b65"/>
+            <column name="country_id" value="fa8a9294-bfb1-44bb-a073-6316e68f273e"/>
+        </insert>
+        <insert tableName="emergency_calls">
+            <column name="id" valueComputed="uuid_generate_v4()"/>
+            <column name="phone_number" value="986"/>
+            <column name="emergency_service_id" value="99e27f63-f4a3-47fd-9d5f-df3c61a61fe1"/>
+            <column name="country_id" value="fa8a9294-bfb1-44bb-a073-6316e68f273e"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
