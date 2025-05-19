@@ -14,10 +14,15 @@ def analyze():
     if 'image' not in request.files:
         return jsonify({'error': 'No image part'}), 400
 
-    image = request.files['image']
+    image_file = request.files['image']
 
-    if image.filename == '':
+    if image_file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
+
+    try:
+        image = Image.open(image_file.stream).convert('RGB')
+    except Exception as e:
+        return jsonify({'error': 'Failed to process image', 'details': str(e)}), 400
 
     return process(image, request.headers.get('Accept-Language', 'en'))
 
@@ -39,7 +44,7 @@ def analyze_bytes():
 
 def process(image, language):
     encoded_image = model.encode_image(image)
-    answer = model.query(encoded_image, 'Describe objects which are in this image ?')['answer']
+    answer = model.query(encoded_image, 'Describe the objects in the image. What are they?')['answer']
 
     if language != 'en':
         answer = GoogleTranslator(source='en', target=language).translate(answer)

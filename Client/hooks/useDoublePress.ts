@@ -18,11 +18,9 @@ const useDoublePress = ({
     const now = Date.now();
 
     if (now - lastPressTime.current < delay) {
-      console.log("Second press")
       lightImpactFeedback();
       onSecondPress();
     } else {
-      console.log("First press")
       heavyImpactFeedback();
       onFirstPress();
     }
