@@ -84,6 +84,10 @@ The system is based on a **client-server architecture**, where the mobile app ac
 | Database   | PostgreSQL                      |
 | Cache      | Redis                           |
 
+---
+
 ## ✅ Results
+![image](https://github.com/user-attachments/assets/7b662de5-6000-41ec-8a28-2e048c17c310)
+
 
 
