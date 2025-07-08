@@ -88,6 +88,10 @@ The system is based on a **client-server architecture**, where the mobile app ac
 
 ## ✅ Results
 ![image](https://github.com/user-attachments/assets/7b662de5-6000-41ec-8a28-2e048c17c310)
+![image](https://github.com/user-attachments/assets/9145b642-fab6-45c9-9f8a-207583ac1ba1)
+![image](https://github.com/user-attachments/assets/6e9f8696-83c3-4d13-8f85-714606965f96)
+
+
 
 
 
