@@ -1,6 +1,6 @@
 # 👁️‍🗨️ CourseWork — Mobile Assistant for the Visually Impaired
 
-A cross-platform mobile application that empowers people with visual impairments through real-time object recognition, location tracking, and emergency assistance — powered by a modern microservice backend and multimodal vision model.
+A cross-platform mobile application that empowers people with visual impairments through real-time object recognition, location tracking, and emergency assistance — powered by a modern backend and multimodal vision model.
 
 ---
 
